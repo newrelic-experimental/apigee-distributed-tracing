@@ -1,0 +1,17 @@
+[
+  {
+    "developerId": "41c72e98-4d7c-41e7-a284-580ca8241a82",
+    "userName": "msummers",
+    "firstName": "Mike",
+    "lastName": "Summers",
+    "email": "msummers@newrelic.com",
+    "status": "active",
+    "attributes": [
+      {
+        "name": "sample_attribute_0",
+        "value": "sample_attribute_value_0"
+      }
+    ],
+    "apps": []
+  }
+]

@@ -1,0 +1,28 @@
+<ProxyEndpoint name="default">
+	<PreFlow name="PreFlow">
+		<Request>
+			<Step>
+				<Name>DT-Request-Policy</Name>
+			</Step>
+			<Step>
+				<Name>remove-query-param-apikey</Name>
+			</Step>
+			<Step>
+				<Name>impose-quota</Name>
+			</Step>
+		</Request>
+	</PreFlow>
+	<PostFlow name="PostFlow">
+		<Response>
+			<Step>
+				<Name>DT-Response-Policy</Name>
+			</Step>
+		</Response>
+	</PostFlow>
+	<HTTPProxyConnection>
+		<BasePath>/DT-Test</BasePath>
+	</HTTPProxyConnection>
+	<RouteRule name="default-route">
+		<TargetEndpoint>default</TargetEndpoint>
+	</RouteRule>
+</ProxyEndpoint>

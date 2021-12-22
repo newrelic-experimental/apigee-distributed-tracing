@@ -1,0 +1,18 @@
+[
+  {
+    "attributes": [
+      {
+        "name": "sample_attribute_0",
+        "value": "sample_attribute_value_0"
+      }
+    ],
+    "developerEmail": "msummers@newrelic.com",
+    "name": "myapp",
+    "displayName": "myapp",
+    "callbackUrl": "",
+    "apiProducts": [
+      "myproduct"
+    ],
+    "expiryType": "never"
+  }
+]
