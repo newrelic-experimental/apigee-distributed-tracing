@@ -2,25 +2,22 @@
 	<PreFlow name="PreFlow">
 		<Request>
 			<Step>
-				<Name>DT-Request-Policy</Name>
+				<Name>Trace-Context-Request</Name>
 			</Step>
 			<Step>
-				<Name>remove-query-param-apikey</Name>
-			</Step>
-			<Step>
-				<Name>impose-quota</Name>
+				<Name>Add-Trace-Context-To-Pub-Sub-Message</Name>
 			</Step>
 		</Request>
 	</PreFlow>
 	<PostFlow name="PostFlow">
 		<Response>
 			<Step>
-				<Name>DT-Response-Policy</Name>
+				<Name>Trace-Context-Response</Name>
 			</Step>
 		</Response>
 	</PostFlow>
 	<HTTPProxyConnection>
-		<BasePath>/DT-Test</BasePath>
+		<BasePath>/Trace-Context</BasePath>
 	</HTTPProxyConnection>
 	<RouteRule name="default-route">
 		<TargetEndpoint>default</TargetEndpoint>

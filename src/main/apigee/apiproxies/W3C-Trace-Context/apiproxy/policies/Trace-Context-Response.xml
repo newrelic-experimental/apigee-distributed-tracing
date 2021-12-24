@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="DT-Response-Policy">
-    <DisplayName>DT-Response-Policy</DisplayName>
-    <Properties/>
-    <ResourceURL>jsc://DT-Response.js</ResourceURL>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="Trace-Context-Response">
+    <DisplayName>Trace-Context-Response</DisplayName>
+    <Properties>
+        <!-- The name of the Request/Response pair. Must be unique within a Proxy. -->
+        <Property name="RequestResponsePairName">Initial</Property>
+        <!-- Custom attributes to include with the NR Span object. A comma separated list of key:value pairs -->
+        <Property name="AdditionalSpanAttributes"></Property>
+        <!-- How to determine the end time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid. Default is `Date.now()'-->
+        <Property name="TraceEndTimestamp"></Property>
+    </Properties>
+    <ResourceURL>jsc://Trace-Context-Response.js</ResourceURL>
 </Javascript>

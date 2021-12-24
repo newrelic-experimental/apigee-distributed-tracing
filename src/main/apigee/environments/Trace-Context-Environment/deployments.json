@@ -1,4 +1,4 @@
 {
-  "proxies" : ["DT-Test"],
+  "proxies" : ["W3C-Trace-Context"],
   "sharedflows" : []
 }

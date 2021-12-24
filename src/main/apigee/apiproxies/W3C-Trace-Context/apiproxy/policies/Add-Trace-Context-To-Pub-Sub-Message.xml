@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="Add-Trace-Context-To-Pub-Sub-Message">
+    <DisplayName>Add-Trace-Context-To-Pub-Sub-Message</DisplayName>
+    <Properties/>
+    <ResourceURL>jsc://Add-Trace-Context-To-Pub-Sub-Message.js</ResourceURL>
+</Javascript>

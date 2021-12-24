@@ -19,7 +19,7 @@
     "name": "myproduct",
     "displayName": "myproduct",
     "proxies": [
-      "DT-Test"
+      "W3C-Trace-Context"
     ]
   }
 ]
