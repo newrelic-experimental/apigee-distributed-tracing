@@ -1,4 +1,21 @@
 <TargetEndpoint name="default">
+	<PreFlow name="PreFlow">
+		<Request>
+			<Step>
+				<Name>Target-Trace-Context-Request</Name>
+			</Step>
+			<Step>
+				<Name>Add-Trace-Context-To-Pub-Sub-Message</Name>
+			</Step>
+		</Request>
+	</PreFlow>
+	<PostFlow name="PostFlow">
+		<Response>
+			<Step>
+				<Name>Target-Trace-Context-Response</Name>
+			</Step>
+		</Response>
+	</PostFlow>
 	<HTTPTargetConnection>
 		<URL>https://mocktarget.apigee.net</URL>
 	</HTTPTargetConnection>

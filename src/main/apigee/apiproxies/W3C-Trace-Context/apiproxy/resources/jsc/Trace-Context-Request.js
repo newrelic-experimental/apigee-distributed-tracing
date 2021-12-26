@@ -1,4 +1,18 @@
-"use strict"
+'use strict'
+
+var RequestResponsePairName = properties.RequestResponsePairName;
+var logPrefix = RequestResponsePairName + '.TraceContextRequest: ';
+logMsg(logPrefix + 'enter');
+var ctxPrefix = 'traceContext.' + RequestResponsePairName;
+
+var startTime = Date.now();
+var configuredStartTime = context.getVariable(properties.TraceStartTimestamp);
+if (configuredStartTime != null) {
+    startTime = configuredStartTime;
+} else {
+    //logMsg(RequestResponsePairName + ' ' +'WARN: null value for TraceStartTimestamp: ' + properties.TraceStartTimestamp );
+}
+
 function randomHexString(len) {
     var r = '';
     var maxlen = 8,
@@ -7,14 +21,14 @@ function randomHexString(len) {
         n = Math.floor(Math.random() * (max - min + 1)) + min,
         r = n.toString(16);
     while (r.length < len) {
-        r = r + randHex(len - maxlen);
+        r = r + randomHexString(len - maxlen);
     }
     return r;
 }
 
 function generateValidID(len) {
     var id = randomHexString(len);
-// IDs must not be all zeros
+    // IDs must not be all zeros
     while (! /[1-9a-f]/.test(id)) {
         id = randomHexString(len);
     }
@@ -31,20 +45,23 @@ function generateSampled() {
     return '00';
 }
 
-var traceparent = context.getVariable("request.header.traceparent");
-var tracestate = context.getVariable("request.header.tracestate");
+//var traceparent = context.proxyRequest.headers['traceparent'];
+//var tracestate =  context.proxyRequest.headers['tracestate'];
+var traceparent = context.getVariable('request.header.traceparent');
+var tracestate = context.getVariable('request.header.tracestate');
+logMsg(logPrefix + 'traceparent: ' + traceparent + ' type: ' + typeof (traceparent))
 //
 // Note:
-//   In W3C speak "Parent ID" is only the "Parent's ID" as received in an incoming traceparent header. Once we create a "Span" we become the "Parent ID"- what
-//   most would term "the Span ID". `requestParentID` is therefore the incoming Span's ID. This code sticks with W3C terminology for consistency.
+//   In W3C speak 'Parent ID' is only the 'Parent's ID' as received in an incoming traceparent header. Once we create a 'Span' we become the 'Parent ID'- what
+//   most would term 'the Span ID'. `requestParentID` is therefore the incoming Span's ID. This code sticks with W3C terminology for consistency.
 var versionFormat, requrestVersionFormat, traceID, parentID, traceFlags, requestParentID
 
 function newTraceparent() {
     versionFormat = '00';
-    traceID = generateValidID(16);
-    parentID = generateValidID(8);   // aka SpanID
+    traceID = generateValidID(32);
+    parentID = generateValidID(16);   // aka SpanID
     traceFlags = generateSampled();
-    requestParentID = "";            // New Relic's Trace API expects a null parent.id attribute if this is the root span
+    requestParentID = '';            // New Relic's Trace API expects a null parent.id attribute if this is the root span
     tracestate = '';
 }
 
@@ -69,13 +86,13 @@ else {
     //     The vendor will only parse the trace-flags values supported by this version of this specification and ignore all other values.
     //     If parsing fails, the vendor creates a new traceparent header and deletes the tracestate. Vendors will set all unparsed / unknown trace-flags to 0 on outgoing requests.
     if (!/^[\da-f]{2}-[\da-f]{32}-[\da-f]{16}-[\da-f]{2}$/.test(traceparent)) {
-        print('Error: invalid traceparent: ' + traceparent);
+        logMsg(logPrefix + 'Error: invalid traceparent: ' + traceparent);
         newTraceparent();
     } else {
         // If the vendor supports the version number, it validates trace-id and parent-id. If either trace-id, parent-id or trace-flags are invalid, the vendor creates a new traceparent header and deletes tracestate.
         var values = traceparent.split('-');
         requestVersionFormat = values[0];
-        traceId = values[1];
+        traceID = values[1];
         parentID = values[2];
         traceFlags = values[2];
         if (/[1-9a-f]/.test(traceID)) {
@@ -89,22 +106,22 @@ else {
                     parentID = generateValidID(8);
                     traceFlags = generateSampled();
                 } else {
-                    print('Error: invalid traceFlags: ' + traceFlags);
+                    logMsg(logPrefix + 'Error: invalid traceFlags: ' + traceFlags);
                     newTraceparent();
                 }
             } else {
-                print('Error: invalid parentID: ' + parentID);
+                logMsg(logPrefix + 'Error: invalid parentID: ' + parentID);
                 newTraceparent();
             }
         } else {
-            print('Error: invalid traceID: ' + traceID);
+            logMsg(logPrefix + 'Error: invalid traceID: ' + traceID);
             newTraceparent();
         }
 
         // The vendor MAY validate the tracestate header. If the tracestate header cannot be parsed the vendor MAY discard the entire header. Invalid tracestate entries MAY also be discarded.
         var states = tracestate.split(',');
         if (states.length > 32) {
-            print("Warning: tracestate has too many values: " + states.length);
+            logMsg(RlogPrefix + 'Warning: tracestate has too many values: ' + states.length);
         }
     }
 }
@@ -118,13 +135,20 @@ else {
 
 // The vendor sets the traceparent and tracestate header for the outgoing request.
 traceparent = versionFormat + '-' + traceID + '-' + parentID + '-' + traceFlags;
+logMsg(logPrefix + 'outbound traceparent: ' + traceparent);
 
-context.targetRequest.headers['traceparent'] = traceparent;
-context.targetRequest.headers['tracestate'] = tracestate;
+//context.targetRequest.headers['traceparent'] = traceparent;
+//context.targetRequest.headers['tracestate'] = tracestate;
+//context.proxyRequest.headers['traceparent'] = traceparent;
+//context.proxyRequest.headers['tracestate'] = tracestate;
+context.setVariable('request.header.traceparent', traceparent);
+context.setVariable('request.header.tracestate', tracestate);
 
 // Values needed by the Reponse to write to New Relic
-context.setVariable("traceContext.requestParentID", requestParentID);
-context.setVariable("traceContext.parentID", parentID);
-context.setVariable("traceContext.traceID", traceID);
-context.setVariable("traceContext.traceFlags", traceFlags);
-context.setVariable("traceContext.parentStartTime", context.getVariable("client.received.start.timestamp"));
+context.setVariable(ctxPrefix + 'requestParentID', requestParentID);
+context.setVariable(ctxPrefix + 'parentID', parentID);
+context.setVariable(ctxPrefix+ 'traceID', traceID);
+context.setVariable(ctxPrefix+ 'traceFlags', traceFlags);
+context.setVariable(ctxPrefix+ 'parentStartTime', startTime);
+
+logMsg(logPrefix + 'exit');

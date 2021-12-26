@@ -16,8 +16,18 @@
 
 # Apigee Distributed Tracing
 
+## TO DO
+- Who writes the `tracecontext` to the Pub/Sub message?
+    - What is the format?
+- Does NR have a standard for `tracestate`?
 ## Installation
-
+## Configuration
+- [Flow execution sequence](https://docs.apigee.com/api-platform/fundamentals/what-are-flows#designingflowexecutionsequence)
+- Start/End timestamps: [Apigee Flow Variables](https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference)
+### Proxy policies
+- Proxy policies must be paired, one in a Request Flow and one in a Response Flow
+- Request Policies use `<ResourceURL>jsc://Trace-Context-Request.js</ResourceURL>`
+- 
 ## Development
 
 ### Helpful links

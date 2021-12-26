@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Javascript async="false" continueOnError="true" enabled="true" timeLimit="5000" name="Trace-Context-Response">
-    <DisplayName>Trace-Context-Response</DisplayName>
+<Javascript async="false" continueOnError="true" enabled="true" timeLimit="5000" name="Target-Trace-Context-Response">
+    <DisplayName>Target-Trace-Context-Response</DisplayName>
     <Properties>
         <!-- The name of the Request/Response pair. Must be unique within a Proxy. -->
-        <Property name="RequestResponsePairName">Proxy-Trace-Context-Flow</Property>
+        <Property name="RequestResponsePairName">Target-Trace-Context-Flow</Property>
         <!-- Custom attributes to include with the NR Span object. A comma separated list of key:value pairs -->
         <Property name="AdditionalSpanAttributes"></Property>
         <!-- How to determine the end time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid. Default is `Date.now()'-->
