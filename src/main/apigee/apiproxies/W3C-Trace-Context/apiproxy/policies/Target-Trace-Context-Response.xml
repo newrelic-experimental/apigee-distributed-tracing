@@ -2,12 +2,32 @@
 <Javascript async="false" continueOnError="true" enabled="true" timeLimit="5000" name="Target-Trace-Context-Response">
     <DisplayName>Target-Trace-Context-Response</DisplayName>
     <Properties>
-        <!-- The name of the Request/Response pair. Must be unique within a Proxy. -->
+        <!-- REQUIRED
+         The name of the Request/Response pair. Must be unique within a Proxy.
+         Default: no default value
+         -->
         <Property name="RequestResponsePairName">Target-Trace-Context-Flow</Property>
-        <!-- Custom attributes to include with the NR Span object. A comma separated list of key:value pairs -->
+
+        <!-- OPTIONAL
+        Custom attributes to include with the New Relic Span object. MUST be a valid JSON object.
+        https://docs.newrelic.com/docs/distributed-tracing/trace-api/report-new-relic-format-traces-trace-api/#new-relic-guidelines
+        Default: { 'duration.ms': endTime - parentStartTime, 'name': properties.RequestResponsePairName, 'service.name': 'Apigee' }
+        -->
         <Property name="AdditionalSpanAttributes"></Property>
-        <!-- How to determine the end time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid. Default is `Date.now()'-->
+
+        <!-- OPTIONAL
+        Custom attributes to include with the New Relic Trace object, common to all Spans. MUST be a valid JSON object.
+        https://docs.newrelic.com/docs/distributed-tracing/trace-api/report-new-relic-format-traces-trace-api/#new-relic-guidelines
+        Default: no default value 
+         -->
+        <Property name="CommonAttributes"></Property>
+
+        <!-- OPTIONAL
+         How to determine the end time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid.
+         Default:  `Date.now()'
+         -->
         <Property name="TraceEndTimestamp"></Property>
+
     </Properties>
     <IncludeURL>jsc://Utils.js</IncludeURL>
     <ResourceURL>jsc://Trace-Context-Response.js</ResourceURL>

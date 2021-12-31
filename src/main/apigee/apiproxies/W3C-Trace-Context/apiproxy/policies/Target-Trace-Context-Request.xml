@@ -2,12 +2,26 @@
 <Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="Target-Trace-Context-Request">
     <DisplayName>Target-Trace-Context-Request</DisplayName>
     <Properties>
-        <!-- The odds of a Trace being sampled, 0-100. 0 = tracing off, 100 = trace everything. -->
+        <!-- OPTIONAL
+        The odds of a Trace being sampled, 0-100. 0 = tracing off, 100 = trace everything.
+        Default: 100 -->
         <Property name="SampleOddsPercentage">100</Property>
-        <!-- The name of the Request/Response pair. Must be unique within a Proxy. -->
-         <Property name="RequestResponsePairName">Target-Trace-Context-Flow</Property>
-        <!-- How to determine the start time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid. Default is `Date.now()'-->
+
+        <!-- REQUIRED
+        The name of the Request/Response pair. Must be unique within a Proxy.
+        Default: no default value -->
+        <Property name="RequestResponsePairName">Target-Trace-Context-Flow</Property>
+
+        <!-- OPTIONAL
+        How to determine the start time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid.
+        Default:`Date.now()'-->
         <Property name="TraceStartTimestamp"></Property>
+
+        <!-- OPTIONAL
+         A comma separated list of key=value pairs propagated  in the tracestate header.
+        https://www.w3.org/TR/trace-context/#tracestate-header -->
+        <Property name="AdditionalTracestateValues"></Property>
+
     </Properties>
     <IncludeURL>jsc://Utils.js</IncludeURL>
     <ResourceURL>jsc://Trace-Context-Request.js</ResourceURL>

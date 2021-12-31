@@ -1,2 +1,6 @@
 target/
+tmp/
+src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/resources/properties/newrelic.properties
+internal/
+
 
