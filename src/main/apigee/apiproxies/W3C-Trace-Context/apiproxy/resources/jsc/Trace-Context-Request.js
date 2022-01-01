@@ -1,10 +1,37 @@
 'use strict';
 
-// TODO validate Policy properties
+var logPrefix = 'TraceContextRequest: ';
+// <!-- OPTIONAL
+// The odds of a Trace being sampled, 0-100. 0 = tracing off, 100 = trace everything.
+// Default: 100 -->
+// <Property name="SampleOddsPercentage">100</Property>
+var SampleOddsPercentage = contextGetVariable(properties.SampleOddsPercentage, 100);
+// <!-- REQUIRED
+// The name of the Request/Response pair. Must be unique within a Proxy.
+// Default: no default value -->
+// <Property name="RequestResponsePairName">Target-Trace-Context-Flow</Property>
 
-var startTime = contextGetVariable(properties.TraceStartTimestamp, Date.now());
 var RequestResponsePairName = properties.RequestResponsePairName;
-var logPrefix = RequestResponsePairName + '.TraceContextRequest: ';
+if(isNil(RequestResponsePairName)){
+    print(logPrefix + "ERROR: invalid RequestResponsePairName: " + RequestResponsePairName);
+    logMsg(logPrefix + "ERROR: invalid RequestResponsePairName: " + RequestResponsePairName);
+    throw (logPrefix + "ERROR: invalid RequestResponsePairName: " + RequestResponsePairName);
+}
+logPrefix = RequestResponsePairName + '.TraceContextRequest: ';
+
+// <!-- OPTIONAL
+// How to determine the start time for this Trace. Any Flow Variable (https://cloud.google.com/apigee/docs/api-platform/reference/variables-reference) ending in '.timestamp' is valid.
+// Default:`Date.now()'-->
+// <Property name="TraceStartTimestamp"></Property>
+var startTime = contextGetVariable(properties.TraceStartTimestamp, Date.now());
+
+// <!-- OPTIONAL
+//  A comma separated list of key=value pairs propagated  in the tracestate header.
+// https://www.w3.org/TR/trace-context/#tracestate-header
+// Default: no default value -->
+// <Property name="AdditionalTracestateValues"></Property>
+var additionalStates = properties.AdditionalTracestateValues;
+
 logMsg(logPrefix + 'enter');
 var ctxPrefix = 'traceContext.' + RequestResponsePairName;
 
@@ -63,7 +90,7 @@ function generateSampled() {
     // Give us a number 0 - 99 inclusive
     var n = Math.floor(Math.random() * 100);
     n = n + 1;
-    if (n <= properties.SampleOddsPercentage) {
+    if (n <= SampleOddsPercentage) {
         return '01';
     }
     return '00';
@@ -71,7 +98,6 @@ function generateSampled() {
 
 var traceparent = context.getVariable('request.header.traceparent');
 var tracestate = context.getVariable('request.header.tracestate.values.string');
-var additionalStates = properties.AdditionalTracestateValues;
 logMsg(logPrefix + 'traceparent: ' + traceparent + ' type: ' + typeof (traceparent));
 logMsg(logPrefix + 'tracestate: ' + tracestate + ' type: ' + typeof (tracestate));
 logMsg(logPrefix + 'additionalStates: ' + additionalStates + ' type: ' + typeof (additionalStates));

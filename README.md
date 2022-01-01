@@ -21,11 +21,11 @@ The repository also includes [sample policies](src/main/apigee/apiproxies/W3C-Tr
 **The documentation requires fluency with Apigee.**
 
 ## Installation
-1. Copy the JavaScript resources into the `resources/jsc` folder
-2. Copy `newrelic-sample.properties` file to `resources/properties/newrelic.properties`
+1. Copy the [Javascript Resources](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/resources/jsc) into the `resources/jsc` folder of the Proxy
+2. Copy [newrelic-sample.properties](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/resources/properties/newrelic-sample.properties) file to `resources/properties/newrelic.properties` in the Proxy
 3. Create a Request/Response Policy pair for each Flow step measured. At a minimum one pair is required to ensure that a Trace Context is present for a Target.
-  - [Sample Request Policy](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/policies/Trace-Context-Request.xml)
-  - [Sample Response Policy](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/policies/Trace-Context-Response.xml)
+   - [Sample Request Policy](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/policies/Trace-Context-Request.xml)
+   - [Sample Response Policy](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/policies/Trace-Context-Response.xml)
 
 ## Configuration
 All Resource and Policy files include complete in-file documentation, see them for details

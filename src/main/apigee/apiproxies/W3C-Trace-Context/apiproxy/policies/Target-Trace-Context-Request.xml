@@ -19,7 +19,8 @@
 
         <!-- OPTIONAL
          A comma separated list of key=value pairs propagated  in the tracestate header.
-        https://www.w3.org/TR/trace-context/#tracestate-header -->
+        https://www.w3.org/TR/trace-context/#tracestate-header
+        Default: no default value -->
         <Property name="AdditionalTracestateValues"></Property>
 
     </Properties>

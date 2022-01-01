@@ -1,9 +1,19 @@
 'use strict';
 
-// TODO validate Policy properties
-
+var logPrefix = 'TraceContextResponse: ';
+// <!-- REQUIRED
+// The name of the Request/Response pair. Must be unique within a Proxy.
+// Default: no default value
+// -->
+// <Property name="RequestResponsePairName">Target-Trace-Context-Flow</Property>
 var RequestResponsePairName = properties.RequestResponsePairName;
-var logPrefix = RequestResponsePairName + '.TraceContextResponse: ';
+if(isNil(RequestResponsePairName)){
+    print(logPrefix + "ERROR: invalid RequestResponsePairName: " + RequestResponsePairName);
+    logMsg(logPrefix + "ERROR: invalid RequestResponsePairName: " + RequestResponsePairName);
+    throw (logPrefix + "ERROR: invalid RequestResponsePairName: " + RequestResponsePairName);
+}
+logPrefix = RequestResponsePairName + '.TraceContextResponse: ';
+
 logMsg(logPrefix + 'enter');
 var ctxPrefix = 'traceContext.' + RequestResponsePairName;
 
@@ -72,7 +82,7 @@ if ((traceFlags & 0x01) == 1) {
     }]
 
     var endpoint = context.getVariable('propertyset.newrelic.ENDPOINT');
-    var licenseKey = context.getVariable('propertyset.newrelic.LICENSE_KEY');
+    var licenseKey = contextGetVariable('propertyset.newrelic.LICENSE_KEY', 'https://trace-api.newrelic.com/trace/v1');
     if (isNil(licenseKey)) {
         print('ERROR: ' + logPrefix + ' missing New Relic LICENSE_KEY: ' + licenseKey);
         logMsg(logPrefix + ' ERROR missing New Relic LICENSE_KEY: ' + licenseKey);
