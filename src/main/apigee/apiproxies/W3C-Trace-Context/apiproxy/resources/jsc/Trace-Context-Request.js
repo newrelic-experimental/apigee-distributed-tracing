@@ -155,7 +155,7 @@ else {
                     // Update parent-id: The value of property parent-id MUST be set to a value representing the ID of the current operation.
                     // Update sampled: The value of sampled reflects the caller's recording behavior. The value of the sampled flag of trace-flags MAY be set to 1 if the trace data is likely to be recorded or to 0 otherwise. Setting the flag is no guarantee that the trace will be recorded but increases the likeliness of end-to-end recorded traces.
                     requestParentID = parentID;
-                    parentID = generateValidID(8);
+                    parentID = generateValidID(16);
                     traceFlags = generateSampled();
                 } else {
                     logMsg(logPrefix + 'Error: invalid traceFlags: ' + traceFlags);
