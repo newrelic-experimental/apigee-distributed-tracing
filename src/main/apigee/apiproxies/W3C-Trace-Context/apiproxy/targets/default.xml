@@ -4,9 +4,9 @@
 			<Step>
 				<Name>Target-Trace-Context-Request</Name>
 			</Step>
-			<Step>
+			<!-- <Step>
 				<Name>Add-Trace-Context-To-Pub-Sub-Message</Name>
-			</Step>
+			</Step> -->
 		</Request>
 	</PreFlow>
 	<PostFlow name="PostFlow">
