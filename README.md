@@ -11,6 +11,9 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/newrelic-experimental/newrelic-experimental-FIT-template)
 ![GitHub pull requests closed](https://img.shields.io/github/issues-pr-closed/newrelic-experimental/newrelic-experimental-FIT-template)
 
+# Archived
+This repository is archived and deprecated in favor of https://github.com/newrelic-experimental/nr-apigee-integration.
+
 # Apigee Distributed Tracing
 This repository includes Apigee [Javascript Resources](src/main/apigee/apiproxies/W3C-Trace-Context/apiproxy/resources/jsc) for
 - Creating or propagating [W3C Trace Context](https://www.w3.org/TR/trace-context/) through [Apigee Flows](https://cloud.google.com/apigee/docs/api-platform/fundamentals/what-are-flows) and on to the Apigee Target
